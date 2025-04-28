@@ -20,7 +20,7 @@ Antes de iniciar, é necessário ter instalado:
 
 Node.js + npm (https://nodejs.org/pt)
 
-.NET SDK 8.0 (https://dotnet.microsoft.com/pt-br/download)
+.NET SDK 9.0 (https://dotnet.microsoft.com/pt-br/download)
 
 Como rodar o projeto:
 
@@ -28,11 +28,17 @@ Como rodar o projeto:
 
 git clone https://github.com/Lucas-luza/lista-de-tarefa.git
 
+Ou baixar o .zip do projeto.
+
 2 - Rodar o Backend (C#)
 
+no prompt de comando: 
+cd tarefas-backend dotnet restore
 cd tarefas-backend dotnet run
 
 O backend vai rodar localmente em http://localhost:5167
+
+Deixe essa janela aberta, CNTRL + C, desliga o servidor.
 
 Observação:
 Caso o comando dotnet run gerar outro endereço (outro localhost e porta diferente), é necessário editar a constante API_URL no arquivo: 
@@ -40,7 +46,9 @@ tarefas-frontend\src\services\TarefasService
 
 3 - Rodar o Frontend (Vue.js)
 
-cd tarefas-frontend npm install npm run serve
+no prompt de comando:
+cd tarefas-frontend npm install
+cd tarefas-frontend npm run serve
 
 O frontend vai rodar localmente em http://localhost:8080
 
