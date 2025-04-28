@@ -8,7 +8,8 @@
       <input v-model="novoResponsavel" placeholder="Responsável (opcional)" @keyup.enter="adicionarTarefa"/>
       <button @click="adicionarTarefa">➕Adicionar</button>
     </div>
-        <div class="filtros">
+    
+    <div class="filtros">
       <button @click="filtro = 'todas'" :class="{ ativo: filtro === 'todas' }">Todas</button>
       <button @click="filtro = 'pendentes'" :class="{ ativo: filtro === 'pendentes' }">Pendentes</button>
       <button @click="filtro = 'concluidas'" :class="{ ativo: filtro === 'concluidas' }">Concluídas</button>
@@ -33,7 +34,6 @@
             <input v-model="tarefa.novoResponsavel" placeholder="Edite o responsável (opcional)" @keyup.enter="salvarEdicao(tarefa)"/>
           </div>
         </div>
-
         <div class="botoes">
           <template v-if="!tarefa.editando">
             <button @click="editarTarefa(tarefa)">✏️</button>
@@ -42,6 +42,9 @@
           <template v-else>
             <button @click="salvarEdicao(tarefa)">💾</button>
           </template>
+        </div>
+        <div class="id-tarefa">
+          Tarefa: {{ tarefa.id }}
         </div>
       </li>
     </ul>
@@ -58,29 +61,29 @@ import TarefasService from '@/services/TarefasService';
 
 export default {
   data() {
-  return {
-    tarefas: [],
-    novaTarefaDescricao: '',
-    novoResponsavel: '',
-    filtro: 'todas',
-    toast: {
-      mostrar: false,
-      mensagem: '',
-      tipo: 'sucesso'
+    return {
+      tarefas: [],
+      novaTarefaDescricao: '',
+      novoResponsavel: '',
+      filtro: 'todas',
+      toast: {
+        mostrar: false,
+        mensagem: '',
+        tipo: 'sucesso'
+      }
+    };
+  },
+  computed: {
+    tarefasFiltradas() {
+      if (this.filtro === 'pendentes') {
+        return this.tarefas.filter(tarefa => !tarefa.dataConclusao);
+      }
+      if (this.filtro === 'concluidas') {
+        return this.tarefas.filter(tarefa => tarefa.dataConclusao);
+      }
+      return this.tarefas;
     }
-  };
-},
-computed: {
-  tarefasFiltradas() {
-    if (this.filtro === 'pendentes') {
-      return this.tarefas.filter(tarefa => !tarefa.dataConclusao);
-    }
-    if (this.filtro === 'concluidas') {
-      return this.tarefas.filter(tarefa => tarefa.dataConclusao);
-    }
-    return this.tarefas;
-  }
-},
+  },
   methods: {
     async carregarTarefas() {
       const resposta = await TarefasService.listar();
@@ -94,10 +97,13 @@ computed: {
         return this.mostrarToast('Preencha a descrição!', 'erro');
       }
 
-      await TarefasService.criar({
+      const novaTarefa = {
         descricao: this.novaTarefaDescricao,
         responsavel: this.novoResponsavel || null,
-      });
+        dataCriacao: new Date().toISOString(),
+      };
+      
+      await TarefasService.criar(novaTarefa);
 
       this.novaTarefaDescricao = '';
       this.novoResponsavel = '';
@@ -140,6 +146,10 @@ computed: {
       setTimeout(() => {
         this.toast.mostrar = false;
       }, 2500);
+    },
+    formatDate(date) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      return new Date(date).toLocaleDateString(undefined, options);
     },
   },
   mounted() {
@@ -333,5 +343,21 @@ button:hover {
   background: #00cfc0;
   color: #1a1a2e;
   border: 1px solid #00cfc0;
+}
+.datas {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.datas small {
+  display: block;
+  margin-top: 5px;
+}
+
+.id-tarefa {
+  font-size: 12px;
+  color: #a9a9a9;
+  margin-top: 5px;
+  text-align: right;
 }
 </style>
