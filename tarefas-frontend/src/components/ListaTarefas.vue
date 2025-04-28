@@ -316,7 +316,6 @@ button:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/*filtros*/
 .filtros {
   display: flex;
   justify-content: center;
