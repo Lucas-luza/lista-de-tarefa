@@ -1,0 +1,12 @@
+# Ignorar pastas de build do .NET
+bin/
+obj/
+
+# Ignorar arquivos temporários do SQLite
+*.db-journal
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar configurações locais
+.vscode/
