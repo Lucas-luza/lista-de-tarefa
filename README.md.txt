@@ -16,6 +16,12 @@ Estrutura do Projeto:
 
 Projeto/ ├── tarefas-frontend/ (Aplicação Vue.js) ├── tarefas-backend/ (API em C# com SQLite)
 
+Antes de iniciar, é necessário ter instalado:
+
+Node.js + npm (https://nodejs.org/pt)
+
+.NET SDK 8.0 (https://dotnet.microsoft.com/pt-br/download)
+
 Como rodar o projeto:
 
 1 - Clonar o repositório
